@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materiale Licență | Telecomunicații</title>
+    <!-- Utilizăm Tailwind CSS prin CDN pentru un design modern și responsiv rapid -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <style>
+        /* Animații personalizate pentru tranziții fine */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Stilizare pentru scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+    <script>
+        // Setăm tema dark by default și prevenim flash-ul la încărcare
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        }
+    </script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans min-h-screen transition-colors duration-300">
+
+    <!-- Bara de navigare superioară -->
+    <header class="bg-blue-600 dark:bg-slate-800 text-white shadow-md sticky top-0 z-10 transition-colors duration-300">
+        <div class="max-w-6xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                <h1 class="text-xl sm:text-2xl font-bold tracking-tight">Portal Licență 2026</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div id="header-actions">
+                    <!-- Aici va apărea butonul de înapoi când suntem pe pagina unei materii -->
+                </div>
+                <!-- Butonul pentru Dark/Light Mode -->
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-white/20 transition-colors focus:outline-none" title="Schimbă tema">
+                    <!-- Iconița va fi setată prin JS -->
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Containerul principal unde este injectat conținutul -->
+    <!-- Containerul principal unde este injectat conținutul -->
+    <main id="app-container" class="max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        <!-- Conținutul va fi generat de JavaScript -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 dark:bg-slate-950 text-slate-400 py-6 text-center mt-auto border-t border-slate-700 dark:border-slate-800 transition-colors duration-300">
+        <p class="text-sm">© 2026 Materiale Licență. Creat pentru încărcare pe GitHub Pages.</p>
+    </footer>
+
+    <script>
+        // --- BAZA DE DATE A MATERIILOR ---
+        // Aici poți adăuga link-urile reale. Sfat: creează un folder "documente" lângă index.html.
+        const materii = [
+            {
+                id: 'com-date',
+                titlu: 'Comunicații de date',
+                icon: '📡',
+                culoare: 'bg-blue-500',
+                fisiere: [
+                    // Observă cum am adăugat /com-date/ în calea fișierului
+                    { nume: 'Curs 1 - Introducere.pdf', link: 'documente/com-date/curs1.pdf', tip: 'pdf' },
+                    { nume: 'Suport Laborator.docx', link: 'documente/com-date/lab1.docx', tip: 'doc' },
+                    { nume: 'Schema Rețea.png', link: 'documente/com-date/schema.png', tip: 'img' },
+                    { nume: 'Cod Sursă.txt', link: 'documente/com-date/cod.txt', tip: 'txt' }
+                ]
+            },
+            {
+                id: 'microunde',
+                titlu: 'Microunde',
+                icon: '🌊',
+                culoare: 'bg-cyan-600',
+                fisiere: [
+                    // Aici fisierele vor fi în folderul documente/microunde/
+                    { nume: 'Curs 1 - Microunde.pdf', link: 'documente/microunde/curs1.pdf', tip: 'pdf' },
+                    { nume: 'Formule.pdf', link: 'documente/microunde/formule.pdf', tip: 'pdf' }
+                ]
+            },
+            {
+                id: 'comutatie',
+                titlu: 'Sisteme de comutație telefonică și multiplexare',
+                icon: '☎️',
+                culoare: 'bg-indigo-500',
+                fisiere: [
+                    // La fel, pui link către documente/comutatie/...
+                ]
+            },
+            {
+                id: 'retele',
+                titlu: 'Reţele şi protocoale de comunicaţii',
+                icon: '🌐',
+                culoare: 'bg-emerald-500',
+                fisiere: []
+            },
+            {
+                id: 'teoria-transmisiunii',
+                titlu: 'Teoria transmisiunii informaţiei',
+                icon: '📊',
+                culoare: 'bg-violet-500',
+                fisiere: []
+            },
+            {
+                id: 'radioreleu',
+                titlu: 'Sisteme de comunicaţii radioreleu şi via satelit',
+                icon: '🛰️',
+                culoare: 'bg-orange-500',
+                fisiere: []
+            },
+            {
+                id: 'optice',
+                titlu: 'Sisteme de comunicații optice',
+                icon: '💡',
+                culoare: 'bg-amber-400',
+                fisiere: []
+            }
+        ];
+
+        // --- LOGICA APLICAȚIEI (JavaScript) ---
+
+        const appContainer = document.getElementById('app-container');
+        const headerActions = document.getElementById('header-actions');
+
+        // Funcția de afișare a paginii principale (Grila cu materii)
+        function renderHome() {
+            headerActions.innerHTML = ''; // Ascunde butonul de înapoi
+            
+            let html = `
+                <div class="text-center mb-10 fade-in">
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white sm:text-4xl transition-colors">Selectează Materia</h2>
+                    <p class="mt-4 text-lg text-slate-600 dark:text-slate-400 transition-colors">Apasă pe o materie pentru a accesa materialele de studiu, cursurile și laboratoarele asociate.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 fade-in">
+            `;
+
+            materii.forEach(materie => {
+                html += `
+                    <button onclick="renderSubject('${materie.id}')" 
+                            class="group relative bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:border-blue-300 dark:hover:border-blue-500 transition-all duration-300 text-left flex flex-col items-start h-full transform hover:-translate-y-1">
+                        <div class="inline-flex items-center justify-center rounded-xl ${materie.culoare} p-3 text-white shadow-md mb-4 text-3xl h-16 w-16">
+                            ${materie.icon}
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">${materie.titlu}</h3>
+                        <p class="mt-2 text-sm text-slate-500 dark:text-slate-400 mt-auto pt-4 transition-colors">
+                            ${materie.fisiere.length} materiale disponibile
+                        </p>
+                    </button>
+                `;
+            });
+
+            html += `</div>`;
+            appContainer.innerHTML = html;
+            window.scrollTo(0, 0);
+        }
+
+        // Funcția de afișare a detaliilor unei materii și a side-viewer-ului
+        function renderSubject(id) {
+            const materie = materii.find(m => m.id === id);
+            if (!materie) return;
+
+            // Adaugă butonul de înapoi în header
+            headerActions.innerHTML = `
+                <button onclick="renderHome()" class="flex items-center px-4 py-2 bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white rounded-lg transition-colors text-sm font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Înapoi
+                </button>
+            `;
+
+            let html = `
+                <div class="fade-in w-full mx-auto">
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 sm:p-8 mb-6 flex items-center space-x-6 transition-colors duration-300">
+                        <div class="inline-flex items-center justify-center rounded-xl ${materie.culoare} p-4 text-white shadow-md text-3xl hidden sm:flex h-16 w-16 flex-shrink-0">
+                            ${materie.icon}
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-900 dark:text-white transition-colors">${materie.titlu}</h2>
+                            <p class="text-slate-500 dark:text-slate-400 mt-1 transition-colors">Selectează un material pentru a-l vizualiza în panoul alăturat</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Lista de fișiere (Stânga) -->
+                        <div class="lg:col-span-1 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300 h-fit">
+                            <div class="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 px-6 py-4 transition-colors">
+                                <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200">Fișiere Încărcate</h3>
+                            </div>
+                            <ul class="divide-y divide-slate-200 dark:divide-slate-700 transition-colors max-h-[500px] overflow-y-auto">
+            `;
+
+            if (materie.fisiere.length === 0) {
+                html += `
+                                <li class="px-6 py-10 text-center text-slate-500 dark:text-slate-400 flex flex-col items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-slate-300 dark:text-slate-600 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                                    </svg>
+                                    Niciun material încărcat momentan.
+                                </li>
+                `;
+            } else {
+                materie.fisiere.forEach((fisier) => {
+                    let fileIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-400 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>`;
+                    
+                    if(fisier.tip === 'pdf') {
+                        fileIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>`;
+                    } else if (fisier.tip === 'doc' || fisier.tip === 'docx') {
+                        fileIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>`;
+                    } else if (fisier.tip === 'img') {
+                        fileIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-500 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>`;
+                    } else if (fisier.tip === 'txt') {
+                        fileIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-500 dark:text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>`;
+                    }
+
+                    // Aici apelăm viewer-ul în loc să deschidem în tab nou
+                    html += `
+                                <li class="hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors cursor-pointer group"
+                                    onclick="viewFile('${fisier.link}', '${fisier.tip}', '${fisier.nume}')">
+                                    <div class="px-5 py-4 flex items-center justify-between">
+                                        <div class="flex items-center space-x-3 truncate">
+                                            ${fileIcon}
+                                            <span class="text-slate-700 dark:text-slate-200 text-sm font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate" title="${fisier.nume}">${fisier.nume}</span>
+                                        </div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400 dark:text-slate-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex-shrink-0 opacity-0 group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                    </div>
+                                </li>
+                    `;
+                });
+            }
+
+            html += `
+                            </ul>
+                        </div>
+                        
+                        <!-- Viewer-ul (Dreapta) -->
+                        <div class="lg:col-span-2 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300 h-[600px] flex flex-col relative">
+                            <div class="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 px-6 py-4 transition-colors flex justify-between items-center">
+                                <h3 id="viewer-title" class="text-lg font-semibold text-slate-800 dark:text-slate-200 truncate">Viewer Materiale</h3>
+                                <a id="viewer-download" href="#" target="_blank" download class="hidden text-sm text-blue-600 dark:text-blue-400 hover:underline flex items-center bg-blue-50 dark:bg-blue-900/30 px-3 py-1.5 rounded-md">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                    Descarcă
+                                </a>
+                            </div>
+                            <div id="viewer-content" class="flex-1 p-4 flex items-center justify-center bg-slate-100 dark:bg-slate-900/50 transition-colors overflow-hidden">
+                                <div class="text-center text-slate-500 dark:text-slate-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    <p>Selectează un document din lista din stânga</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            appContainer.innerHTML = html;
+            window.scrollTo(0, 0);
+        }
+
+        // Funcția de afișare a conținutului în panoul din dreapta
+        function viewFile(link, tip, nume) {
+            const viewerContent = document.getElementById('viewer-content');
+            const viewerTitle = document.getElementById('viewer-title');
+            const viewerDownload = document.getElementById('viewer-download');
+            
+            // Actualizăm antetul viewer-ului
+            viewerTitle.textContent = nume;
+            viewerDownload.href = link;
+            viewerDownload.classList.remove('hidden');
+
+            // Stare de încărcare (oferă un feedback vizual plăcut)
+            viewerContent.innerHTML = `
+                <div class="animate-pulse flex flex-col items-center">
+                    <div class="h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+                    <p class="text-slate-500 dark:text-slate-400">Se încarcă...</p>
+                </div>
+            `;
+
+            setTimeout(() => {
+                if (tip === 'pdf' || tip === 'txt') {
+                    // Pentru PDF și TXT folosim un iframe (nativ în orice browser modern)
+                    viewerContent.innerHTML = `<iframe src="${link}" class="w-full h-full rounded border border-slate-200 dark:border-slate-700 bg-white" title="${nume}"></iframe>`;
+                } else if (tip === 'img') {
+                    // Pentru imagini le randăm simplu
+                    viewerContent.innerHTML = `<img src="${link}" alt="${nume}" class="max-w-full max-h-full object-contain rounded drop-shadow-md">`;
+                } else if (tip === 'doc' || tip === 'docx') {
+                    // Browserul nu randează Word offline, așa că îi generăm un card frumos de unde să descarce
+                    viewerContent.innerHTML = `
+                        <div class="text-center bg-white dark:bg-slate-800 p-8 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-blue-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <h4 class="text-lg font-bold text-slate-800 dark:text-slate-100 mb-2">Fișier Word detectat</h4>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 max-w-sm">Datorită restricțiilor browserului, fișierele Word nu pot fi afișate direct fără o conexiune la un server extern. Te rugăm să-l descarci.</p>
+                            <a href="${link}" download class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                Descarcă Documentul
+                            </a>
+                        </div>
+                    `;
+                }
+            }, 300); // mic delay pentru tranziție lină
+        }
+
+        // Inițializare aplicație
+        document.addEventListener('DOMContentLoaded', () => {
+            renderHome();
+            updateThemeIcon();
+        });
+
+        // --- LOGICA PENTRU TEMA DARK / LIGHT ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        
+        function updateThemeIcon() {
+            const isDark = document.documentElement.classList.contains('dark');
+            if (isDark) {
+                // Iconiță Soare (pentru a trece pe Light Mode)
+                themeToggleBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>`;
+            } else {
+                // Iconiță Lună (pentru a trece pe Dark Mode)
+                themeToggleBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>`;
+            }
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeIcon();
+        });
+
+    </script>
+</body>
+</html>
