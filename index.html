@@ -46,13 +46,12 @@
         }
     </script>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans min-h-screen transition-colors duration-300">
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans min-h-screen transition-colors duration-300 flex flex-col">
 
     <!-- Bara de navigare superioară -->
     <header class="bg-blue-600 dark:bg-slate-800 text-white shadow-md sticky top-0 z-10 transition-colors duration-300">
         <div class="max-w-6xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
@@ -71,8 +70,7 @@
     </header>
 
     <!-- Containerul principal unde este injectat conținutul -->
-    <!-- Containerul principal unde este injectat conținutul -->
-    <main id="app-container" class="max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+    <main id="app-container" class="max-w-6xl w-full mx-auto px-4 py-8 sm:px-6 lg:px-8 flex-1">
         <!-- Conținutul va fi generat de JavaScript -->
     </main>
 
@@ -81,81 +79,35 @@
         <p class="text-sm">© 2026 Materiale Licență. Creat pentru încărcare pe GitHub Pages.</p>
     </footer>
 
-    <script>
-        // --- BAZA DE DATE A MATERIILOR ---
-        // Aici poți adăuga link-urile reale. Sfat: creează un folder "documente" lângă index.html.
-        const materii = [
-            {
-                id: 'com-date',
-                titlu: 'Comunicații de date',
-                icon: '📡',
-                culoare: 'bg-blue-500',
-                fisiere: [
-                    // Observă cum am adăugat /com-date/ în calea fișierului
-                    { nume: 'Curs 1 - Introducere.pdf', link: 'documente/com-date/curs1.pdf', tip: 'pdf' },
-                    { nume: 'Suport Laborator.docx', link: 'documente/com-date/lab1.docx', tip: 'doc' },
-                    { nume: 'Schema Rețea.png', link: 'documente/com-date/schema.png', tip: 'img' },
-                    { nume: 'Cod Sursă.txt', link: 'documente/com-date/cod.txt', tip: 'txt' }
-                ]
-            },
-            {
-                id: 'microunde',
-                titlu: 'Microunde',
-                icon: '🌊',
-                culoare: 'bg-cyan-600',
-                fisiere: [
-                    // Aici fisierele vor fi în folderul documente/microunde/
-                    { nume: 'Curs 1 - Microunde.pdf', link: 'documente/microunde/curs1.pdf', tip: 'pdf' },
-                    { nume: 'Formule.pdf', link: 'documente/microunde/formule.pdf', tip: 'pdf' }
-                ]
-            },
-            {
-                id: 'comutatie',
-                titlu: 'Sisteme de comutație telefonică și multiplexare',
-                icon: '☎️',
-                culoare: 'bg-indigo-500',
-                fisiere: [
-                    // La fel, pui link către documente/comutatie/...
-                ]
-            },
-            {
-                id: 'retele',
-                titlu: 'Reţele şi protocoale de comunicaţii',
-                icon: '🌐',
-                culoare: 'bg-emerald-500',
-                fisiere: []
-            },
-            {
-                id: 'teoria-transmisiunii',
-                titlu: 'Teoria transmisiunii informaţiei',
-                icon: '📊',
-                culoare: 'bg-violet-500',
-                fisiere: []
-            },
-            {
-                id: 'radioreleu',
-                titlu: 'Sisteme de comunicaţii radioreleu şi via satelit',
-                icon: '🛰️',
-                culoare: 'bg-orange-500',
-                fisiere: []
-            },
-            {
-                id: 'optice',
-                titlu: 'Sisteme de comunicații optice',
-                icon: '💡',
-                culoare: 'bg-amber-400',
-                fisiere: []
-            }
-        ];
+    <!-- AICI ESTE SCRIPTUL CARE IMPORTĂ DATELE GENERATE DE POWERSHELL -->
+    <script src="date_materii.js"></script>
 
-        // --- LOGICA APLICAȚIEI (JavaScript) ---
+    <script>
+        // --- BAZA DE DATE A MATERIILOR (Fallback) ---
+        // Dacă nu a rulat scriptul PS sau fișierul nu există încă, afișăm ceva gol să nu crape pagina.
+        if (typeof window.materii === 'undefined') {
+            window.materii = [
+                { id: 'com-date', titlu: 'Comunicații de date', icon: '📡', culoare: 'bg-blue-500', fisiere: [] },
+                { id: 'microunde', titlu: 'Microunde', icon: '🌊', culoare: 'bg-cyan-600', fisiere: [] },
+                { id: 'comutatie', titlu: 'Sisteme de comutație telefonică și multiplexare', icon: '☎️', culoare: 'bg-indigo-500', fisiere: [] },
+                { id: 'retele', titlu: 'Reţele şi protocoale de comunicaţii', icon: '🌐', culoare: 'bg-emerald-500', fisiere: [] },
+                { id: 'teoria-transmisiunii', titlu: 'Teoria transmisiunii informaţiei', icon: '📊', culoare: 'bg-violet-500', fisiere: [] },
+                { id: 'radioreleu', titlu: 'Sisteme de comunicaţii radioreleu şi via satelit', icon: '🛰️', culoare: 'bg-orange-500', fisiere: [] },
+                { id: 'optice', titlu: 'Sisteme de comunicații optice', icon: '💡', culoare: 'bg-amber-400', fisiere: [] }
+            ];
+            console.warn("Fișierul 'date_materii.js' lipsește. Folosesc lista de bază goală.");
+        }
+
+        const materii = window.materii; // Preluăm datele
+
+        // --- LOGICA APLICAȚIEI ---
 
         const appContainer = document.getElementById('app-container');
         const headerActions = document.getElementById('header-actions');
 
-        // Funcția de afișare a paginii principale (Grila cu materii)
+        // Funcția de afișare a paginii principale
         function renderHome() {
-            headerActions.innerHTML = ''; // Ascunde butonul de înapoi
+            headerActions.innerHTML = ''; 
             
             let html = `
                 <div class="text-center mb-10 fade-in">
@@ -185,12 +137,11 @@
             window.scrollTo(0, 0);
         }
 
-        // Funcția de afișare a detaliilor unei materii și a side-viewer-ului
+        // Funcția de afișare a detaliilor și a viewer-ului
         function renderSubject(id) {
             const materie = materii.find(m => m.id === id);
             if (!materie) return;
 
-            // Adaugă butonul de înapoi în header
             headerActions.innerHTML = `
                 <button onclick="renderHome()" class="flex items-center px-4 py-2 bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white rounded-lg transition-colors text-sm font-medium">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -213,7 +164,7 @@
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <!-- Lista de fișiere (Stânga) -->
+                        <!-- Lista de fișiere -->
                         <div class="lg:col-span-1 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300 h-fit">
                             <div class="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 px-6 py-4 transition-colors">
                                 <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200">Fișiere Încărcate</h3>
@@ -244,7 +195,6 @@
                         fileIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-500 dark:text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>`;
                     }
 
-                    // Aici apelăm viewer-ul în loc să deschidem în tab nou
                     html += `
                                 <li class="hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors cursor-pointer group"
                                     onclick="viewFile('${fisier.link}', '${fisier.tip}', '${fisier.nume}')">
@@ -267,7 +217,7 @@
                             </ul>
                         </div>
                         
-                        <!-- Viewer-ul (Dreapta) -->
+                        <!-- Viewer-ul -->
                         <div class="lg:col-span-2 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300 h-[600px] flex flex-col relative">
                             <div class="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 px-6 py-4 transition-colors flex justify-between items-center">
                                 <h3 id="viewer-title" class="text-lg font-semibold text-slate-800 dark:text-slate-200 truncate">Viewer Materiale</h3>
@@ -296,18 +246,15 @@
             window.scrollTo(0, 0);
         }
 
-        // Funcția de afișare a conținutului în panoul din dreapta
         function viewFile(link, tip, nume) {
             const viewerContent = document.getElementById('viewer-content');
             const viewerTitle = document.getElementById('viewer-title');
             const viewerDownload = document.getElementById('viewer-download');
             
-            // Actualizăm antetul viewer-ului
             viewerTitle.textContent = nume;
             viewerDownload.href = link;
             viewerDownload.classList.remove('hidden');
 
-            // Stare de încărcare (oferă un feedback vizual plăcut)
             viewerContent.innerHTML = `
                 <div class="animate-pulse flex flex-col items-center">
                     <div class="h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
@@ -317,13 +264,10 @@
 
             setTimeout(() => {
                 if (tip === 'pdf' || tip === 'txt') {
-                    // Pentru PDF și TXT folosim un iframe (nativ în orice browser modern)
                     viewerContent.innerHTML = `<iframe src="${link}" class="w-full h-full rounded border border-slate-200 dark:border-slate-700 bg-white" title="${nume}"></iframe>`;
                 } else if (tip === 'img') {
-                    // Pentru imagini le randăm simplu
                     viewerContent.innerHTML = `<img src="${link}" alt="${nume}" class="max-w-full max-h-full object-contain rounded drop-shadow-md">`;
                 } else if (tip === 'doc' || tip === 'docx') {
-                    // Browserul nu randează Word offline, așa că îi generăm un card frumos de unde să descarce
                     viewerContent.innerHTML = `
                         <div class="text-center bg-white dark:bg-slate-800 p-8 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-blue-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -340,28 +284,25 @@
                         </div>
                     `;
                 }
-            }, 300); // mic delay pentru tranziție lină
+            }, 300);
         }
 
-        // Inițializare aplicație
         document.addEventListener('DOMContentLoaded', () => {
             renderHome();
             updateThemeIcon();
         });
 
-        // --- LOGICA PENTRU TEMA DARK / LIGHT ---
+        // --- TEMA DARK/LIGHT ---
         const themeToggleBtn = document.getElementById('theme-toggle');
         
         function updateThemeIcon() {
             const isDark = document.documentElement.classList.contains('dark');
             if (isDark) {
-                // Iconiță Soare (pentru a trece pe Light Mode)
                 themeToggleBtn.innerHTML = `
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                     </svg>`;
             } else {
-                // Iconiță Lună (pentru a trece pe Dark Mode)
                 themeToggleBtn.innerHTML = `
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
